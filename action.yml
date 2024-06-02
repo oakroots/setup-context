@@ -1,0 +1,32 @@
+name: Setup Context
+description: |
+  This action checkouts Oakroots actions private repository and also the application repository.
+  In addition to the checkout, it also uses FranzDiebold/github-env-vars-action to pass more env variables.
+  
+inputs:
+  path:
+    description: The path where the actions should be checked out
+    default: "oakroots-actions"
+    required: false
+  ref:
+    description: The revision of the oakroots-actions you're trying checkout
+    default: ""
+    required: false
+
+runs:
+  using: composite
+  steps:
+    - name: GitHub Environment Variables Action
+      uses: FranzDiebold/github-env-vars-action@v2.8.0
+
+    - name: Setup GOPRIVATE
+      shell: bash
+      run: echo "GOPRIVATE=github.com/oakroots" >> $GITHUB_ENV
+
+    - name: Checkout Oakroots Actions Repo
+      uses: actions/checkout@v4
+      with:
+        repository: oakroots/github-actions
+        token: ${{ env.GH_TOKEN_BOT }}
+        path: ${{ inputs.path }}
+        ref: ${{ inputs.ref }}

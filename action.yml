@@ -24,7 +24,7 @@ runs:
       run: echo "GOPRIVATE=github.com/oakroots" >> $GITHUB_ENV
 
     - name: Checkout Oakroots Actions Repo
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
       with:
         repository: oakroots/github-actions
         token: ${{ env.GH_TOKEN_BOT }}
